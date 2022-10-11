@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:Password1!@localhost:3306/Football"
+}
+
+model Conference {
+  id       Int     @id @default(autoincrement())
+  name     String  @db.VarChar(100)
+  imageUrl String? @db.VarChar(255)
+  fullName String? @db.VarChar(45)
+  Team     Team[]
+}
+
+model Team {
+  id             Int         @id @default(autoincrement())
+  name           String?     @db.VarChar(45)
+  conferenceId   Int?
+  imageUrl       String?     @db.VarChar(255)
+  mascot         String?     @db.VarChar(45)
+  mascotImageUrl String?     @db.VarChar(255)
+  dateFounded    DateTime?   @db.DateTime(0)
+  city           String?     @db.VarChar(80)
+  state          String?     @db.VarChar(2)
+  Conference     Conference? @relation(fields: [conferenceId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "conferenceId")
+
+  @@index([conferenceId], map: "conferenceId_idx")
+}

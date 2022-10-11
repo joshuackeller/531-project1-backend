@@ -1,5 +1,8 @@
-var express = require("express");
-var router = express.Router();
+import express from "Express";
+const router = express.Router();
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient({ errorFormat: "minimal" });
 
 const PAC_12_TEAMS = [
   {
@@ -19,20 +22,32 @@ const BIG_12_TEAMS = [
   },
 ];
 
-router.get("/:conferenceId/teams", (req, res) => {
-  const { conferenceId } = req.params;
-  let teams;
-  if (conferenceId == "pac12") {
-    teams = PAC_12_TEAMS;
-  } else {
-    teams = BIG_12_TEAMS;
-  }
+router.get("/", async (req, res) => {
+  try {
+    const conferences = await prisma.conference.findMany();
 
-  res.send(teams);
+    return res.send(conferences);
+  } catch (error) {
+    return res.send(error);
+  }
+});
+
+router.get("/:conferenceId/teams", async (req, res) => {
+  let { conferenceId } = req.params;
+  conferenceId = parseInt(conferenceId);
+
+  const teams = await prisma.conference.findUniqueOrThrow({
+    where: { id: conferenceId },
+    include: {
+      Team: true,
+    },
+  });
+
+  return res.send(teams);
 });
 router.post("/", (req, res) => {
   res.send("POST route on things.");
 });
 
 //export this router to use in our index.js
-module.exports = router;
+export default router;
