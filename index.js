@@ -3,6 +3,7 @@ import cors from "cors";
 const app = express();
 
 import conferences from "./src/conferences.js";
+import index from "./src/index.js";
 
 app.use(cors());
 
@@ -13,6 +14,8 @@ app.use((req, res, next) => {
 });
 
 app.use("/conferences", conferences);
+
+app.use("/", index);
 
 const server = app.listen(4000);
 
