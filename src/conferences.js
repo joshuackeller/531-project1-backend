@@ -1,30 +1,22 @@
 import express from "Express";
 const router = express.Router();
-import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient({ errorFormat: "minimal" });
+import knex from "knex";
 
-const PAC_12_TEAMS = [
-  {
-    name: "Washington",
+const db = knex({
+  client: "mysql",
+  connection: {
+    host: "database-1.cluster-csuto9dkhygk.us-east-1.rds.amazonaws.com",
+    port: 3306,
+    user: "admin",
+    password: "iWFrvRdCgg3Y9fMUkWojGf",
+    database: "FootballTest",
   },
-  {
-    name: "Colorado",
-  },
-];
-
-const BIG_12_TEAMS = [
-  {
-    name: "Oklahoma State",
-  },
-  {
-    name: "Baylor",
-  },
-];
+});
 
 router.get("/", async (req, res) => {
   try {
-    const conferences = await prisma.conference.findMany();
+    const conferences = await db.select().from("TestConferences");
 
     return res.send(conferences);
   } catch (error) {
@@ -33,21 +25,18 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:conferenceId/teams", async (req, res) => {
-  let { conferenceId } = req.params;
-  conferenceId = parseInt(conferenceId);
+  try {
+    let { conferenceId } = req.params;
+    conferenceId = parseInt(conferenceId);
 
-  const teams = await prisma.conference.findUniqueOrThrow({
-    where: { id: conferenceId },
-    include: {
-      Team: true,
-    },
-  });
+    const teams = await db("TestTeams").where({
+      conferenceId,
+    });
 
-  return res.send(teams);
-});
-router.post("/", (req, res) => {
-  res.send("POST route on things.");
+    return res.send(teams);
+  } catch (error) {
+    return res.status(res?.statusCode || 500).send(error);
+  }
 });
 
-//export this router to use in our index.js
 export default router;
