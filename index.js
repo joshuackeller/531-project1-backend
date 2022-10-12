@@ -14,4 +14,7 @@ app.use((req, res, next) => {
 
 app.use("/conferences", conferences);
 
-app.listen(4000);
+const server = app.listen(4000);
+
+server.keepAliveTimeout = 65000;
+server.headersTimeout = 80000;
