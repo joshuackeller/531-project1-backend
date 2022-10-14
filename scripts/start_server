@@ -1,0 +1,5 @@
+#!/bin/bash
+cd /backend/api
+npm i
+pm2 start index.js
+
