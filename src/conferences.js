@@ -10,7 +10,7 @@ const db = knex({
     port: 3306,
     user: "admin",
     password: "iWFrvRdCgg3Y9fMUkWojGf",
-    database: "FootballTest",
+    database: "CollegeFootballDB",
   },
 });
 
