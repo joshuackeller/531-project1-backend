@@ -4,9 +4,11 @@ files:
   - source: /index.js
     destination: /var/www/html/
   - source: /src/conferences.js
-    destination: /var/www/html/src
+    destination: /var/www/html/src/
   - source: /src/index.js
-    destination: /var/www/html/src
+    destination: /var/www/html/src/
+  - source: /package.json
+    destination: /var/www/html/
 hooks:
   BeforeInstall:
     - location: scripts/install_dependencies
