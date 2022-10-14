@@ -1,4 +1,4 @@
 #!/bin/bash
-cd /backend/api
+cd /var/www/html
 npm i
 pm2 start index.js

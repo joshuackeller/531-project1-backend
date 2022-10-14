@@ -1,14 +1,17 @@
 version: 0.0
 os: linux
 files:
-  - source: /
-    destination: /backend/api
-  # - source: src/conferences.js
-  #   destination: /backend/api/src
-  # - source: src/index.js
-  #   destination: /backend/api/src
+  - source: /index.js
+    destination: /var/www/html/
+  - source: /src/conferences.js
+    destination: /var/www/html/src
+  - source: /src/index.js
+    destination: /var/www/html/src
 hooks:
   BeforeInstall:
+    - location: scripts/install_dependencies
+      timeout: 300
+      runas: root
     - location: scripts/start_server
       timeout: 300
       runas: root
