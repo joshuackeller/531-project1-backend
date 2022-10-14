@@ -1,12 +1,12 @@
 version: 0.0
 os: linux
 files:
-  - source: /index.js
-    destination: /backend/api/
-  - source: /src/conferences.js
-    destination: /backend/api/src/
-  - source: /src/index.js
-    destination: /backend/api/src/
+  - source: /
+    destination: /backend/api
+  # - source: src/conferences.js
+  #   destination: /backend/api/src
+  # - source: src/index.js
+  #   destination: /backend/api/src
 hooks:
   BeforeInstall:
     - location: scripts/start_server
