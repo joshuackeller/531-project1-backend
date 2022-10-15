@@ -14,9 +14,10 @@ const db = knex({
   },
 });
 
+// GET CONFERENCES
 router.get("/", async (req, res) => {
   try {
-    const conferences = await db.select().from("TestConferences");
+    const conferences = await db.select().from("Conferences");
 
     return res.send(conferences);
   } catch (error) {
@@ -24,16 +25,24 @@ router.get("/", async (req, res) => {
   }
 });
 
+// GET TEAMS IN A CONFERENCE
 router.get("/:conferenceId/teams", async (req, res) => {
   try {
     let { conferenceId } = req.params;
     conferenceId = parseInt(conferenceId);
 
-    const teams = await db("TestTeams").where({
-      conferenceId,
+    const conference = await db("Conferences").where({
+      ConferenceId: conferenceId,
     });
 
-    return res.send(teams);
+    const teams = await db("Teams").where({
+      ConferenceId: conferenceId,
+    });
+
+    return res.send({
+      ...conference?.[0],
+      teams,
+    });
   } catch (error) {
     return res.status(res?.statusCode || 500).send(error);
   }
