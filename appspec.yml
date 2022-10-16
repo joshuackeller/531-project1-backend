@@ -2,15 +2,15 @@ version: 0.0
 os: linux
 files:
   - source: /index.js
-    destination: /var/www/html/
+    destination: /backend/
   - source: /src/conferences.js
-    destination: /var/www/html/src/
+    destination: /backend/src/
   - source: /src/teams.js
-    destination: /var/www/html/src/
+    destination: /backend/src/
   - source: /src/index.js
-    destination: /var/www/html/src/
+    destination: /backend/src/
   - source: /package.json
-    destination: /var/www/html/
+    destination: /backend/
 hooks:
   AfterInstall:
     - location: scripts/start_server
