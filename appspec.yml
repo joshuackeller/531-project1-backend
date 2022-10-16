@@ -20,3 +20,7 @@ hooks:
     - location: scripts/stop_server
       timeout: 300
       runas: root
+  AllowTraffic:
+    - location: scripts/do_nothing
+      timeout: 1
+      runas: root
